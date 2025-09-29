@@ -74,9 +74,5 @@ llm_vuln_analyzer/
 └─ LICENSE
 ```
 
-## 🛡️ Resume Bullet Examples
-- Built an **LLM-powered vulnerability analyzer** that detects OWASP Top-10 issues across Python/JavaScript/Go, maps to CWE, and generates secure code fixes, **reducing remediation time by 40%**.
-- Integrated **severity scoring** and **PDF/Markdown reporting**; packaged via Docker and wired into CI.
-
 ## ⚠️ Disclaimer
 This is a learning project. Always validate findings before making production changes.
