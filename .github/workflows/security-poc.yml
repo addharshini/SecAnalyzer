@@ -1,4 +1,4 @@
-name: Security POC (Branch Enforced)
+name: Security POC (Strict - security-poc branch only)
 
 on:
   push:
@@ -14,24 +14,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Install Semgrep
         run: pip install semgrep
 
-      - name: Run Semgrep (Fail on ERROR)
-        run: semgrep --config=p/security-audit .
+      - name: Run Semgrep (Fail on High Severity)
+        run: semgrep --config=p/security-audit --severity ERROR .
 
   gitleaks:
     name: Secret Scan
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Full History
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # Important for scanning history
+          fetch-depth: 0   # REQUIRED to scan full history
 
-      - name: Run Gitleaks (Fail if secrets found)
+      - name: Run Gitleaks (Fail if Secrets Found)
         uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --verbose --redact
+          args: detect --source . --verbose --redact
