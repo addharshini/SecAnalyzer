@@ -20,8 +20,8 @@ jobs:
       - name: Install Semgrep
         run: pip install semgrep
 
-      - name: Run Semgrep (Fail on High Severity)
-        run: semgrep --config=p/security-audit --severity ERROR .
+      - name: Run Semgrep (Fail on ANY finding)
+        run: semgrep --config=p/security-audit .
 
   gitleaks:
     name: Secret Scan
@@ -31,9 +31,17 @@ jobs:
       - name: Checkout Full History
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # REQUIRED to scan full history
+          fetch-depth: 0
 
-      - name: Run Gitleaks (Fail if Secrets Found)
-        uses: gitleaks/gitleaks-action@v2
-        with:
-          args: detect --source . --verbose --redact
+      - name: Install Gitleaks
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/gitleaks/gitleaks/master/install.sh | sh
+          sudo mv gitleaks /usr/local/bin/
+
+      - name: Run Gitleaks (Fail if secrets found)
+        run: |
+          gitleaks detect \
+            --source . \
+            --redact \
+            --verbose \
+            --exit-code 1
