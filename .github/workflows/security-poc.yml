@@ -1,4 +1,4 @@
-name: Security POC (Monitor Mode)
+name: Security POC (Branch Enforced)
 
 on:
   push:
@@ -12,7 +12,6 @@ jobs:
   semgrep:
     name: Semgrep Scan
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4
@@ -20,16 +19,19 @@ jobs:
       - name: Install Semgrep
         run: pip install semgrep
 
-      - name: Run Semgrep
-        run: semgrep --config=p/security-audit .
+      - name: Run Semgrep (Fail on ERROR)
+        run: semgrep --config=p/security-audit --severity ERROR .
 
   gitleaks:
     name: Secret Scan
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Important for scanning history
 
-      - name: Run Gitleaks
+      - name: Run Gitleaks (Fail if secrets found)
         uses: gitleaks/gitleaks-action@v2
+        with:
+          args: detect --verbose --redact
