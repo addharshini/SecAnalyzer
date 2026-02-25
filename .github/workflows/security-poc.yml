@@ -20,7 +20,7 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep (Fail on ERROR)
-        run: semgrep --config=p/security-audit --severity ERROR .
+        run: semgrep --config=p/security-audit .
 
   gitleaks:
     name: Secret Scan
