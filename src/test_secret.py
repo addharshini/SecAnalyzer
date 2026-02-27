@@ -1,3 +1,3 @@
-aws_access_key_id = "AKIA1234567890ABCDE"
-aws_secret_access_key = "abcdEFGHijklMNOPqrstUVWXyz1234567890abcd"
+aws_access_key_id = "AKIAZZZZZZZZZZZZZZZZ"
+aws_secret_access_key = "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd"
 password = "SuperSecretPassworkjkjd123!"
